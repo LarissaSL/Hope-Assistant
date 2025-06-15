@@ -14,7 +14,7 @@ class ComandosLembretes:
 
     def adicionar_lembrete(self, texto_lembrete):
         try:
-            lembrete_formatado = f"[{texto_lembrete.strip()}\n"
+            lembrete_formatado = f"{texto_lembrete.strip()}\n"
 
             with open(self.arquivo_lembretes, 'a', encoding='utf-8') as arquivo:
                 arquivo.write(lembrete_formatado)

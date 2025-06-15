@@ -7,7 +7,7 @@ class ComandosMidia:
         self.player = None
         self.current_song = None
         self.is_playing = False
-        self.volume = 50
+        self.volume = 80
 
     def procura_e_busca_youtube(self, query):
         try:
