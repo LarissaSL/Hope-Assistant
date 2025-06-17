@@ -1,3 +1,4 @@
+import os
 import random
 import threading
 from playsound import playsound
@@ -62,12 +63,7 @@ class HopeAssistant:
                     result = result.lower()
                     self.log('Acionou a assistente!')
 
-                    resultado = self.process_command(result)
-
-                    if resultado == "SAIR":
-                        self.stop_listening()
-                        break
-
+                    self.process_command(result)
 
                 elif result:
                     self.play_sound('HopeCore/audios/n3.mp3')
@@ -292,13 +288,12 @@ class HopeAssistant:
             response = ''.join(random.sample(self.respostas[3], k=1))
             self.comandos_audio_hope.speak(response)
             self.log(f"🤖 Hope: {response}")
-            return "SAIR"
+            os._exit(0)
 
         else:
             response = "Desculpe, não entendi esse comando"
             self.log(f"🤖 Hope: {response}")
 
-        return "CONTINUAR"
 
     def start_listening(self):
         self.listening = True
