@@ -51,6 +51,7 @@ class HopeAssistant:
     def voice_loop(self):
         while self.listening:
             try:
+                self.log("Ouvindo")
                 result = self.comandos_audio_hope.listen_microphone()
 
                 if not self.listening:
@@ -61,7 +62,12 @@ class HopeAssistant:
                     result = result.lower()
                     self.log('Acionou a assistente!')
 
-                    self.process_command(result)
+                    resultado = self.process_command(result)
+
+                    if resultado == "SAIR":
+                        self.stop_listening()
+                        break
+
 
                 elif result:
                     self.play_sound('HopeCore/audios/n3.mp3')
@@ -86,6 +92,7 @@ class HopeAssistant:
             while True:
                 self.comandos_audio_hope.speak('Qual lembrete você quer adicionar?')
                 self.log("🤖 Hope: Qual lembrete você quer adicionar?")
+                self.log("Ouvindo")
                 lembrete_solicitado = self.comandos_audio_hope.listen_microphone_extended()
 
                 if lembrete_solicitado:
@@ -97,6 +104,7 @@ class HopeAssistant:
 
                     self.comandos_audio_hope.speak(f'Você quer que eu adicione o lembrete: "{lembrete_solicitado}"?')
                     self.log(f"🤖 Hope: Você quer que eu adicione o lembrete: '{lembrete_solicitado}'?")
+                    self.log("Ouvindo")
                     confirmacao = self.comandos_audio_hope.listen_microphone()
 
                     if confirmacao.lower() in ['sim', 'yes', 'confirma', 'confirmo', 'isso mesmo', 'isso',
@@ -112,7 +120,9 @@ class HopeAssistant:
                         self.comandos_audio_hope.speak(
                             'Não entendi. Você quer que eu adicione esse lembrete? Diga sim ou não.')
                         self.log("🤖 Hope: Não entendi. Você quer que eu adicione esse lembrete? Diga sim ou não.")
+                        self.log("Ouvindo")
                         nova_confirmacao = self.comandos_audio_hope.listen_microphone()
+
                         if nova_confirmacao.lower() in ['sim', 'yes', 'confirma', 'confirmo']:
                             self.comandos_lembretes.adicionar_lembrete(lembrete_solicitado)
                             self.comandos_audio_hope.speak('Lembrete adicionado com sucesso.')
@@ -132,12 +142,33 @@ class HopeAssistant:
             response = ''.join(random.sample(self.respostas[2], k=1))
             self.comandos_audio_hope.speak(response)
             self.log(f"🤖 Hope: {response}")
+
+            self.log("Ouvindo")
             result = self.comandos_audio_hope.listen_microphone()
-            search_response = ''.join(random.sample(self.respostas[5], k=1)) + 'sobre ' + result
-            self.comandos_audio_hope.speak(search_response)
-            self.log(f"🤖 Hope: {search_response}")
-            self.comandos_pesquisa.search(result)
-            self.log(f"🔍 Pesquisando: {result}")
+
+            # Pergunta se deseja pesquisar pelo navegador ou por IA
+            pergunta = "Você gostaria de pesquisar no navegador ou prefere que eu te responda aqui mesmo?"
+            self.comandos_audio_hope.speak(pergunta)
+            self.log(f"🤖 Hope: {pergunta}")
+            self.log("Ouvindo")
+            escolha = self.comandos_audio_hope.listen_microphone().lower()
+
+            if any(opcao in escolha for opcao in self.respostas[9]):
+                search_response = ''.join(random.sample(self.respostas[5], k=1)) + ' sobre ' + result
+                self.comandos_audio_hope.speak(search_response)
+                self.log(f"🤖 Hope: {search_response}")
+                self.comandos_pesquisa.search(result)
+                self.log(f"🔍 Pesquisando no navegador: {result}")
+
+            elif any(opcao in escolha for opcao in self.respostas[10]):
+                self.comandos_audio_hope.speak("Ok, vou te responder por aqui.")
+                self.log("🧠 Respondendo com IA...")
+                responseAI = self.comandos_pesquisa.search_model(result)
+                if responseAI:
+                    self.comandos_audio_hope.speak(responseAI)
+
+                else:
+                    self.comandos_audio_hope.speak("Desculpe, não foi possível responder sua pergunta.")
 
         # 3 - horas
         elif result in self.comandos[3]:
@@ -159,6 +190,7 @@ class HopeAssistant:
             response = ''.join(random.sample(self.respostas[2], k=1))
             self.comandos_audio_hope.speak(response)
             self.log(f"🤖 Hope: {response}")
+            self.log("Ouvindo")
             result = self.comandos_audio_hope.listen_microphone()
             search_response = ''.join(random.sample(self.respostas[6], k=1)) + result
             self.comandos_audio_hope.speak(search_response)
@@ -173,6 +205,7 @@ class HopeAssistant:
             while True:
                 self.comandos_audio_hope.speak('Qual música você quer ouvir?')
                 self.log("🤖 Hope: Qual música você quer ouvir?")
+                self.log("Ouvindo")
                 musica_solicitada = self.comandos_audio_hope.listen_microphone_extended()
 
                 if musica_solicitada:
@@ -184,6 +217,7 @@ class HopeAssistant:
 
                     self.comandos_audio_hope.speak(f'Você quer que eu toque {musica_solicitada}?')
                     self.log(f"🤖 Hope: Você quer que eu toque {musica_solicitada}?")
+                    self.log("Ouvindo")
                     confirmacao = self.comandos_audio_hope.listen_microphone()
 
                     if confirmacao.lower() in ['sim', 'yes', 'pode tocar', 'toca', 'confirmo', 'isso mesmo', 'isso',
@@ -201,6 +235,7 @@ class HopeAssistant:
                         self.comandos_audio_hope.speak(
                             'Não entendi. Você quer que eu toque essa música? Diga sim ou não.')
                         self.log("🤖 Hope: Não entendi. Você quer que eu toque essa música? Diga sim ou não.")
+                        self.log("Ouvindo")
                         nova_confirmacao = self.comandos_audio_hope.listen_microphone()
                         if nova_confirmacao.lower() in ['sim', 'yes', 'pode tocar', 'toca']:
                             self.comandos_audio_hope.speak(''.join(random.sample(self.respostas[7], k=1)))

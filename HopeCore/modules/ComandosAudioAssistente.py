@@ -4,12 +4,13 @@ import pyttsx3
 
 class AudioAssistente:
 
-    def speak(self, texto):
+    def speak(self, texto, logger=None):
         engine = pyttsx3.init()
         engine.setProperty('rate', 180)
         engine.setProperty('volume', 1)
         engine.say(texto)
         engine.runAndWait()
+        self.logger = logger
 
     def listen_microphone(self, timeout=5, phrase_time_limit=3):
         microfone = sr.Recognizer()

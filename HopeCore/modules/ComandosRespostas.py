@@ -20,7 +20,7 @@ comandos = [funcoes, lembretes, ajuda, horas, data, pesquisa_youtube, tocar_musi
 # Respostas
 funcionalidades = 'Gravar lembretes, fazer pesquisas no Google, falar as horas, falar a data, tocar músicas do YouTube'
 respostas_conclusao = ['Ok!', 'Feito!', 'Concluído!', 'Tudo certo!', 'Terminado!']
-perguntas = ['Como posso ajudar?', 'Ok, vamos lá!', 'Certo, é só falar!']
+perguntas = ['Como posso ajudar?', 'Certo, é só falar!']
 respostas_agradecimento = ['Se precisar é só chamar!', 'Qualquer coisa estou aqui!']
 despedida = ['Até mais!', 'Até breve!', 'Até logo!', 'Até a próxima']
 respostas_pesquisa_google = ['Pesquisando no Google...', 'Abrindo pesquisa no navegador...', 'Buscando no Google...']
@@ -30,5 +30,7 @@ respostas_pesquisa_youtube = ['Procurando no YouTube...', 'Abrindo YouTube...', 
 respostas_tocar_musica = ['Procurando música...', 'Buscando no YouTube...', 'Carregando música...']
 respostas_controle_musica = ['Comando executado!', 'Feito!', 'Ok!']
 respostas_cancelamento = ['Operação cancelada', 'Ok, cancelado', 'Entendido, não vou fazer nada']
+respostas_navegador = ["navegador", "pelo navegador", "abra no navegador", "sim", "pode abrir"]
+respostas_aqui = ["aqui mesmo", "por aqui", "não", "me responde você", "pode me dizer"]
 
-respostas = [funcionalidades, respostas_conclusao, perguntas, respostas_agradecimento, despedida, respostas_pesquisa_google, respostas_pesquisa_youtube, respostas_tocar_musica, respostas_controle_musica]
+respostas = [funcionalidades, respostas_conclusao, perguntas, respostas_agradecimento, despedida, respostas_pesquisa_google, respostas_pesquisa_youtube, respostas_tocar_musica, respostas_controle_musica, respostas_navegador, respostas_aqui]
